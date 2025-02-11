@@ -13,9 +13,9 @@ title                    : "WeiqiMENG"
 title_separator          : "-"
 name                     : &name "WeiqiMENG"
 description              : &description "Research assistant at Iowa State University"
-url                      : https://academicpages.github.io # the base hostname & protocol for your site e.g. "https://mengweiqi7.github.io"
+url                      : https://academicpages.github.io # the base hostname & protocol for your site e.g. "https://archiemeng7.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
-repository               : "mengweiqi7.github.io"
+repository               : "Archiemeng7.github.io"
 
 # Site Author - The following control what appear as part of the author content on the side bar.
 #               If a field is blank the icon and link will not appear, otherwise it will be shown.
@@ -55,7 +55,7 @@ author:
   facebook         : # Username
   flickr           : # Username
   foursquare       : # Username
-  github           : "mengweiqi7" # Username
+  github           : "Archiemeng7" # Username
   goodreads        : # Username
   google_plus      : # Username
   keybase          : # Username
