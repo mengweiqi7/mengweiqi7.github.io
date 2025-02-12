@@ -91,7 +91,7 @@
 
   img {
     max-width: 175px;
-    border-radius: 5%; /*修改为接近直角*/
+    border-radius: 5%;  //修改为接近直角
 
     @include breakpoint($large) {
       padding: 5px;
