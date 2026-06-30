@@ -7,7 +7,7 @@ redirect_from:
   - /about.html
 ---
 
-{{<figure src="/image/Myself.jpg" caption="Taken in Iowa, USA, in October 2025." width="320">}}
+{{<figure src="/image/Myself.jpg" caption="Taken in Iowa, USA, in October 2025." width="365">}} 
 
 
 Welcome to my homepage! My name is Weiqi Meng (Archie Meng). I got my master degree in the [School of Automation at Central South University](https://soa.csu.edu.cn/), supervised by [Prof. Dongran Song](https://faculty.csu.edu.cn/songdongran1/zh_CN/index.htm), majoring in Electrical Engineering . Prior to embarking on my graduate study, I obtained a B.E. degree in Electrical Engineering and Automation from the [Faculty of Electrical Engineering at Kunming University of Science and Technology](https://pwee.kmust.edu.cn/index.htm) in 2021, advised by [Prof. Bo Yang](https://pwee.kmust.edu.cn/info/1036/1143.htm).
