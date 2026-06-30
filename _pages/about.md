@@ -1,5 +1,10 @@
 ---
-title: Home
+permalink: /
+title: "Academic personal website for WeiqiMeng (Updating...)"
+author_profile: true
+redirect_from: 
+  - /about/
+  - /about.html
 ---
 
 {{<figure src="/image/Myself.jpg" caption="Taken in Iowa, USA, in October 2025." width="320">}}
