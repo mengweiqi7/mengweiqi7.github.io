@@ -1,3 +1,13 @@
+---
+title: 'Blog Post number 6'
+date: 2026-07-12
+permalink: /posts/2026/07/blog-post-6/
+tags:
+  - cool posts
+  - category1
+  - category2
+---
+
 # Detailed Revision Suggestions Based on Reviewer Comments
 
 Manuscript: **Day-Ahead Offering for Virtual Power Plants: A Stochastic Linear Programming Reformulation and Projected Subgradient Method**
