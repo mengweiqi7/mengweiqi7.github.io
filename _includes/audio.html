@@ -1,0 +1,112 @@
+{% comment %}
+Universal audio include for Jekyll / Academic Pages
+
+Usage examples:
+
+Direct MP3:
+  {% include audio.html src="/files/audio/example.mp3" title="音频标题" %}
+
+Remote MP3:
+  {% include audio.html src="https://example.com/audio.mp3" title="音频标题" %}
+
+M4A / OGG / WAV:
+  {% include audio.html src="/files/audio/example.m4a" type="audio/mp4" title="音频标题" %}
+  {% include audio.html src="/files/audio/example.ogg" type="audio/ogg" title="音频标题" %}
+  {% include audio.html src="/files/audio/example.wav" type="audio/wav" title="音频标题" %}
+
+External embedded player (Spotify / SoundCloud / podcast host / etc.):
+  {% include audio.html embed_url="https://..." title="音频标题" url="https://原始页面" %}
+
+With caption and download link:
+  {% include audio.html src="/files/audio/example.mp3" title="采访录音" caption="录制于 2026 年" download="true" %}
+
+Optional parameters:
+  src="音频文件地址"
+  type="audio/mpeg / audio/mp4 / audio/ogg / audio/wav"
+  title="音频标题"
+  caption="播放器下方说明"
+  url="原始音频页面"
+  embed_url="外部平台允许嵌入时的播放器地址"
+  preload="metadata / none / auto"
+  download="true / false"
+  loop="true / false"
+
+Notes:
+- 兼容 Jekyll / Liquid，可放在 _includes/audio.html。
+- 直接音频优先使用 HTML5 <audio>，不依赖 JavaScript。
+- 如果平台提供 iframe 嵌入地址，可传入 embed_url。
+- 默认不开启 autoplay，避免浏览器限制和意外播放。
+{% endcomment %}
+
+{% assign audio_src = include.src | default: "" %}
+{% assign audio_type = include.type | default: "audio/mpeg" %}
+{% assign audio_title = include.title | default: "音频" %}
+{% assign audio_caption = include.caption | default: "" %}
+{% assign audio_url = include.url | default: "" %}
+{% assign audio_embed_url = include.embed_url | default: "" %}
+{% assign audio_preload = include.preload | default: "metadata" %}
+{% assign audio_download = include.download | default: "false" | downcase %}
+{% assign audio_loop = include.loop | default: "false" | downcase %}
+
+<div class="universal-audio-embed"
+     style="width:100%; margin:1.25rem 0 1.75rem 0; border:1px solid rgba(127,127,127,.20); border-radius:10px; overflow:hidden;">
+
+  <div style="padding:.8rem 1rem .55rem 1rem;">
+    <strong>{{ audio_title }}</strong>
+  </div>
+
+  {% if audio_embed_url != "" %}
+    <div style="width:100%; overflow:hidden;">
+      <iframe
+        src="{{ audio_embed_url | escape }}"
+        title="{{ audio_title | escape }}"
+        loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin"
+        style="display:block; width:100%; min-height:152px; border:0;">
+      </iframe>
+    </div>
+
+  {% elsif audio_src != "" %}
+    <div style="padding:.25rem 1rem .9rem 1rem;">
+      <audio
+        controls
+        preload="{{ audio_preload | escape }}"
+        {% if audio_loop == "true" %}loop{% endif %}
+        style="display:block; width:100%;">
+        <source src="{{ audio_src | escape }}" type="{{ audio_type | escape }}">
+        你的浏览器不支持 HTML5 音频播放。
+      </audio>
+    </div>
+
+  {% else %}
+    <div style="padding:.25rem 1rem .9rem 1rem; opacity:.78;">
+      未提供可播放的音频地址。
+    </div>
+  {% endif %}
+
+  {% if audio_caption != "" or audio_url != "" or audio_download == "true" %}
+    <div style="padding:.7rem 1rem .85rem 1rem; border-top:1px solid rgba(127,127,127,.16); font-size:.9em; line-height:1.5; opacity:.78;">
+      {% if audio_caption != "" %}
+        <div>{{ audio_caption }}</div>
+      {% endif %}
+
+      {% if audio_url != "" or audio_download == "true" %}
+        <div style="margin-top:.35rem;">
+          {% if audio_url != "" %}
+            <a href="{{ audio_url | escape }}" target="_blank" rel="noopener noreferrer">查看原音频 ↗</a>
+          {% endif %}
+
+          {% if audio_url != "" and audio_download == "true" and audio_src != "" %}
+            <span aria-hidden="true"> · </span>
+          {% endif %}
+
+          {% if audio_download == "true" and audio_src != "" %}
+            <a href="{{ audio_src | escape }}" download>下载音频 ↓</a>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+</div>

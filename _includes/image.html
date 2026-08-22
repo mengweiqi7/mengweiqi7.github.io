@@ -1,0 +1,97 @@
+{% comment %}
+Universal image include for Jekyll / Academic Pages
+
+Usage examples:
+
+Basic image:
+  {% include image.html src="/images/example.jpg" alt="图片说明" %}
+
+Remote image:
+  {% include image.html src="https://example.com/photo.jpg" alt="图片说明" %}
+
+With caption:
+  {% include image.html src="/images/example.jpg" alt="图片说明" caption="图 1：示例图片" %}
+
+Clickable image:
+  {% include image.html src="/images/example.jpg" alt="图片说明" link="https://example.com" %}
+
+Control width:
+  {% include image.html src="/images/example.jpg" alt="图片说明" width="720px" %}
+
+Optional parameters:
+  src="图片地址（必填）"
+  alt="替代文本，建议填写"
+  title="鼠标悬停标题"
+  caption="图片下方说明"
+  credit="来源 / 摄影者"
+  link="点击图片后跳转地址"
+  width="100% / 720px / 48rem 等"
+  align="left / center / right"
+  loading="lazy / eager"
+  radius="10px"
+
+Notes:
+- 兼容 Jekyll / Liquid，可放在 _includes/image.html。
+- src 可使用站内相对路径或完整 https URL。
+- 默认 loading="lazy"；首屏关键图片可改为 eager。
+{% endcomment %}
+
+{% assign image_src = include.src | default: "" %}
+{% assign image_alt = include.alt | default: "" %}
+{% assign image_title = include.title | default: "" %}
+{% assign image_caption = include.caption | default: "" %}
+{% assign image_credit = include.credit | default: "" %}
+{% assign image_link = include.link | default: "" %}
+{% assign image_width = include.width | default: "100%" %}
+{% assign image_align = include.align | default: "center" | downcase %}
+{% assign image_loading = include.loading | default: "lazy" %}
+{% assign image_radius = include.radius | default: "10px" %}
+
+{% if image_align == "left" %}
+  {% assign image_margin = "1.25rem auto 1.75rem 0" %}
+{% elsif image_align == "right" %}
+  {% assign image_margin = "1.25rem 0 1.75rem auto" %}
+{% else %}
+  {% assign image_margin = "1.25rem auto 1.75rem auto" %}
+{% endif %}
+
+<figure class="universal-image-embed"
+        style="display:block; width:{{ image_width }}; max-width:100%; margin:{{ image_margin }};">
+
+  {% if image_src != "" %}
+    {% if image_link != "" %}
+      <a href="{{ image_link | escape }}" target="_blank" rel="noopener noreferrer"
+         style="display:block; text-decoration:none; border:0;">
+    {% endif %}
+
+    <img
+      src="{{ image_src | escape }}"
+      alt="{{ image_alt | escape }}"
+      {% if image_title != "" %}title="{{ image_title | escape }}"{% endif %}
+      loading="{{ image_loading | escape }}"
+      decoding="async"
+      style="display:block; width:100%; height:auto; margin:0; border-radius:{{ image_radius }};">
+
+    {% if image_link != "" %}
+      </a>
+    {% endif %}
+
+    {% if image_caption != "" or image_credit != "" %}
+      <figcaption style="margin-top:.55rem; text-align:center; font-size:.92em; line-height:1.5; opacity:.76;">
+        {% if image_caption != "" %}
+          <span>{{ image_caption }}</span>
+        {% endif %}
+        {% if image_credit != "" %}
+          {% if image_caption != "" %}<br>{% endif %}
+          <span style="font-size:.92em;">{{ image_credit }}</span>
+        {% endif %}
+      </figcaption>
+    {% endif %}
+
+  {% else %}
+    <div style="padding:.9rem 1rem; border:1px solid rgba(127,127,127,.25); border-radius:10px;">
+      未提供图片地址。
+    </div>
+  {% endif %}
+
+</figure>
