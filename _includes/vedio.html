@@ -1,0 +1,221 @@
+{% comment %}
+Universal social video include for Jekyll / Academic Pages
+
+Usage examples:
+
+Bilibili:
+  {% include vedio.html platform="bilibili" id="BV1cJgP6GEG7" %}
+
+YouTube:
+  {% include vedio.html platform="youtube" id="M7lc1UVf-VE" %}
+
+Weibo:
+  {% include vedio.html platform="weibo" embed_url="https://..." url="https://weibo.com/..." %}
+
+Xiaohongshu:
+  {% include vedio.html platform="xiaohongshu" embed_url="https://..." url="https://www.xiaohongshu.com/..." %}
+
+WeChat Channels:
+  {% include vedio.html platform="wechat" embed_url="https://..." url="https://channels.weixin.qq.com/..." %}
+
+Direct MP4:
+  {% include vedio.html platform="mp4" src="https://example.com/video.mp4" poster="/images/poster.jpg" %}
+
+Optional parameters:
+  title="视频标题"
+  ratio="16 / 9"
+  poster="/images/poster.jpg"
+  url="原始视频页面"
+  embed_url="平台允许站外嵌入时的播放器地址"
+
+Bilibili extras:
+  p="1"
+  danmaku="0"
+
+Notes:
+- YouTube and Bilibili have stable public iframe players.
+- Xiaohongshu / WeChat Channels / Weibo do not have an equally reliable,
+  universal public third-party player URL for every public video.
+- For those platforms, use embed_url when you have an authorized working embed URL.
+  If embed_url is absent, this template automatically displays a clean source card.
+{% endcomment %}
+
+{% assign video_platform = include.platform | default: "" | downcase %}
+{% assign video_title = include.title | default: "现场视频" %}
+{% assign video_url = include.url | default: "" %}
+{% assign video_embed_url = include.embed_url | default: "" %}
+{% assign video_poster = include.poster | default: "" %}
+{% assign video_ratio = include.ratio | default: "16 / 9" %}
+
+<div class="universal-video-embed"
+     style="width:100%; margin:1.25rem 0 1.75rem 0;">
+
+  {% case video_platform %}
+
+  {% when "bilibili" %}
+    {% assign bili_p = include.p | default: 1 %}
+    {% assign bili_danmaku = include.danmaku | default: 0 %}
+    <div style="position:relative; width:100%; aspect-ratio:{{ video_ratio }}; overflow:hidden; border-radius:10px;">
+      <iframe
+        src="https://player.bilibili.com/player.html?bvid={{ include.id }}&amp;p={{ bili_p }}&amp;autoplay=0&amp;danmaku={{ bili_danmaku }}"
+        title="{{ video_title | escape }}"
+        scrolling="no"
+        frameborder="0"
+        allow="autoplay; fullscreen; picture-in-picture"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+      </iframe>
+    </div>
+
+  {% when "youtube" %}
+    <div style="position:relative; width:100%; aspect-ratio:{{ video_ratio }}; overflow:hidden; border-radius:10px;">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/{{ include.id }}?rel=0"
+        title="{{ video_title | escape }}"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="strict-origin-when-cross-origin"
+        style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+      </iframe>
+    </div>
+
+  {% when "mp4" %}
+    <video
+      controls
+      playsinline
+      preload="metadata"
+      {% if video_poster != "" %}poster="{{ video_poster | escape }}"{% endif %}
+      style="display:block; width:100%; height:auto; border-radius:10px;">
+      <source src="{{ include.src | escape }}" type="{{ include.type | default: 'video/mp4' }}">
+      你的浏览器不支持 HTML5 视频播放。
+    </video>
+
+  {% when "weibo" %}
+    {% if video_embed_url != "" %}
+      <div style="position:relative; width:100%; aspect-ratio:{{ video_ratio }}; overflow:hidden; border-radius:10px;">
+        <iframe
+          src="{{ video_embed_url | escape }}"
+          title="{{ video_title | escape }}"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+        </iframe>
+      </div>
+    {% else %}
+      <a href="{{ video_url | escape }}" target="_blank" rel="noopener noreferrer"
+         style="display:block; text-decoration:none; color:inherit; border:1px solid rgba(127,127,127,.25); border-radius:10px; overflow:hidden;">
+        {% if video_poster != "" %}
+          <img src="{{ video_poster | escape }}" alt="{{ video_title | escape }}" loading="lazy"
+               style="display:block; width:100%; height:auto; margin:0;">
+        {% endif %}
+        <div style="padding:.9rem 1rem;">
+          <strong>{{ video_title }}</strong>
+          <div style="margin-top:.25rem; font-size:.9em; opacity:.72;">
+            微博暂未提供本站可稳定调用的通用公开播放器，点击查看原视频 ↗
+          </div>
+        </div>
+      </a>
+    {% endif %}
+
+  {% when "xiaohongshu" %}
+    {% if video_embed_url != "" %}
+      <div style="position:relative; width:100%; aspect-ratio:{{ video_ratio }}; overflow:hidden; border-radius:10px;">
+        <iframe
+          src="{{ video_embed_url | escape }}"
+          title="{{ video_title | escape }}"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+        </iframe>
+      </div>
+    {% else %}
+      <a href="{{ video_url | escape }}" target="_blank" rel="noopener noreferrer"
+         style="display:block; text-decoration:none; color:inherit; border:1px solid rgba(127,127,127,.25); border-radius:10px; overflow:hidden;">
+        {% if video_poster != "" %}
+          <img src="{{ video_poster | escape }}" alt="{{ video_title | escape }}" loading="lazy"
+               style="display:block; width:100%; height:auto; margin:0;">
+        {% endif %}
+        <div style="padding:.9rem 1rem;">
+          <strong>{{ video_title }}</strong>
+          <div style="margin-top:.25rem; font-size:.9em; opacity:.72;">
+            小红书未提供像 YouTube/B站那样稳定的通用站外播放器；如有可嵌入地址，请传入 embed_url。点击查看原视频 ↗
+          </div>
+        </div>
+      </a>
+    {% endif %}
+
+  {% when "wechat" %}
+    {% if video_embed_url != "" %}
+      <div style="position:relative; width:100%; aspect-ratio:{{ video_ratio }}; overflow:hidden; border-radius:10px;">
+        <iframe
+          src="{{ video_embed_url | escape }}"
+          title="{{ video_title | escape }}"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+        </iframe>
+      </div>
+    {% else %}
+      <a href="{{ video_url | escape }}" target="_blank" rel="noopener noreferrer"
+         style="display:block; text-decoration:none; color:inherit; border:1px solid rgba(127,127,127,.25); border-radius:10px; overflow:hidden;">
+        {% if video_poster != "" %}
+          <img src="{{ video_poster | escape }}" alt="{{ video_title | escape }}" loading="lazy"
+               style="display:block; width:100%; height:auto; margin:0;">
+        {% endif %}
+        <div style="padding:.9rem 1rem;">
+          <strong>{{ video_title }}</strong>
+          <div style="margin-top:.25rem; font-size:.9em; opacity:.72;">
+            微信视频号未提供像 YouTube/B站那样稳定的通用站外播放器；如有可嵌入地址，请传入 embed_url。点击查看原视频 ↗
+          </div>
+        </div>
+      </a>
+    {% endif %}
+
+  {% else %}
+    {% if video_embed_url != "" %}
+      <div style="position:relative; width:100%; aspect-ratio:{{ video_ratio }}; overflow:hidden; border-radius:10px;">
+        <iframe
+          src="{{ video_embed_url | escape }}"
+          title="{{ video_title | escape }}"
+          frameborder="0"
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowfullscreen
+          loading="lazy"
+          style="position:absolute; inset:0; width:100%; height:100%; border:0;">
+        </iframe>
+      </div>
+    {% elsif video_url != "" %}
+      <a href="{{ video_url | escape }}" target="_blank" rel="noopener noreferrer"
+         style="display:block; text-decoration:none; color:inherit; border:1px solid rgba(127,127,127,.25); border-radius:10px; overflow:hidden;">
+        {% if video_poster != "" %}
+          <img src="{{ video_poster | escape }}" alt="{{ video_title | escape }}" loading="lazy"
+               style="display:block; width:100%; height:auto; margin:0;">
+        {% endif %}
+        <div style="padding:.9rem 1rem;">
+          <strong>{{ video_title }}</strong>
+          <div style="margin-top:.25rem; font-size:.9em; opacity:.72;">
+            点击查看原视频 ↗
+          </div>
+        </div>
+      </a>
+    {% else %}
+      <div style="padding:.9rem 1rem; border:1px solid rgba(127,127,127,.25); border-radius:10px;">
+        未提供可播放的视频地址。
+      </div>
+    {% endif %}
+
+  {% endcase %}
+</div>
