@@ -1,0 +1,32 @@
+/* =========================
+   自定义文章文字样式
+   ========================= */
+
+/* 红色文字 */
+.text-red {
+  color: #d32f2f;
+}
+
+/* 黄色背景 */
+.highlight-yellow {
+  background-color: #fff3a3;
+  padding: 0.05em 0.2em;
+  border-radius: 2px;
+}
+
+/* 红字 + 黄底 */
+.highlight-red {
+  color: #c62828;
+  background-color: #fff3a3;
+  padding: 0.05em 0.2em;
+  border-radius: 2px;
+}
+
+/* 红字 + 黄底 + 加粗 */
+.highlight-red-bold {
+  color: #c62828;
+  background-color: #fff3a3;
+  font-weight: 700;
+  padding: 0.05em 0.2em;
+  border-radius: 2px;
+}
