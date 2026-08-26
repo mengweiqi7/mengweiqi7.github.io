@@ -18,9 +18,5 @@ I am currently pursuing the PhD degree under the supervision of [Prof. Siqi Bu](
 
 
 
-Email: mengweiqi7@gmail.com
-
-URL:[mengweiqi7.github.io](https://mengweiqi7.github.io/) 
-
 
 
